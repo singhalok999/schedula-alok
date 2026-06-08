@@ -1,15 +1,6 @@
-import {
-  Controller,
-  Post,
-  Body,
-  Get,
-  UseGuards,
-} from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
+import { Controller, Post, Body } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Role } from '../users/user.entity';
-import { Roles } from './roles.decorator';
-import { RolesGuard } from './roles.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -31,25 +22,5 @@ export class AuthController {
     @Body('password') password: string,
   ) {
     return this.authService.login(email, password);
-  }
-
-  @Get('doctor/profile')
-  @UseGuards(AuthGuard('jwt'), RolesGuard)
-  @Roles(Role.DOCTOR)
-  doctorProfile() {
-    return {
-      message: 'Doctor profile accessed successfully',
-      role: 'DOCTOR',
-    };
-  }
-
-  @Get('patient/profile')
-  @UseGuards(AuthGuard('jwt'), RolesGuard)
-  @Roles(Role.PATIENT)
-  patientProfile() {
-    return {
-      message: 'Patient profile accessed successfully',
-      role: 'PATIENT',
-    };
   }
 }

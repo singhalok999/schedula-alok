@@ -1,12 +1,24 @@
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm';
+
 export enum Role {
   DOCTOR = 'DOCTOR',
   PATIENT = 'PATIENT',
 }
 
+@Entity()
 export class User {
-  id!: number;
-  name!: string;
-  email!: string;
-  password!: string;
-  role!: Role;
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column()
+  name: string;
+
+  @Column({ unique: true })
+  email: string;
+
+  @Column()
+  password: string;
+
+  @Column({ type: 'enum', enum: Role })
+  role: Role;
 }
